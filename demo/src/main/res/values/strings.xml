@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Covid-19 Live Statistics</string>
+    <string name="app_name_summary">A simple application to parse latest Covid-19 live statistics from \"Our World in Data\".</string>
+    <string name="app_name_short">CLS</string>
+    <string name="last_updated">Last Updated (Data): %s</string>
+    <string name="search_hint">Search…</string>
+    <string name="source_code">Source Code</string>
+</resources>

@@ -1,0 +1,11 @@
+<resources>
+    <string name="cases_new">+ %s</string>
+    <string name="cases_total">Infected: %s</string>
+    <string name="Continent">Continent</string>
+    <string name="country">Country</string>
+    <string name="deaths_new">+ %s</string>
+    <string name="deaths_total">Deaths: %s</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="global">Global</string>
+    <string name="network_failed">Failed to connect with Internet!</string>
+</resources>

@@ -44,25 +44,34 @@
                 android:maxLines="1" />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@id/search_button"
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end|center"
-            android:src="@drawable/ic_search"
-            android:layout_marginEnd="50dp"
-            android:tint="@color/colorBlue"
-            android:background="@null" />
+            android:orientation="horizontal"
+            android:layout_gravity="end|center" >
 
-        <androidx.appcompat.widget.AppCompatImageButton
-            android:id="@+id/info_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end|center"
-            android:src="@drawable/ic_info"
-            android:tint="@color/colorBlue"
-            android:layout_marginEnd="10dp"
-            android:background="@null" />
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@id/search_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center"
+                android:src="@drawable/ic_search"
+                android:layout_marginEnd="10dp"
+                android:tint="@color/colorBlue"
+                android:background="@null"
+                android:visibility="gone" />
+
+            <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/info_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end|center"
+                android:src="@drawable/ic_info"
+                android:tint="@color/colorBlue"
+                android:layout_marginEnd="10dp"
+                android:background="@null"
+                android:visibility="gone" />
+        </androidx.appcompat.widget.LinearLayoutCompat>
     </FrameLayout>
 
     <ProgressBar

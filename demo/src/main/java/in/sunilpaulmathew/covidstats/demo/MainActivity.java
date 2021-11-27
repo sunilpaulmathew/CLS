@@ -134,6 +134,8 @@ public class MainActivity extends AppCompatActivity {
             public void onPostExecute() {
                 if (CovidStats.isDataLoaded()) {
                     mRecyclerView.setAdapter(new RecyclerViewAdapter(mData));
+                    mSearchButton.setVisibility(View.VISIBLE);
+                    mInfoButton.setVisibility(View.VISIBLE);
                 } else {
                     snackBar(getString(R.string.network_failed), MainActivity.this);
                 }

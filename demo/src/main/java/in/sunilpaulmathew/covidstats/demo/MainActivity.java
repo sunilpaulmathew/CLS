@@ -2,15 +2,13 @@ package in.sunilpaulmathew.covidstats.demo;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.ActivityNotFoundException;
-import android.content.Intent;
 import android.content.res.Configuration;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ProgressBar;
@@ -42,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private MaterialTextView mTitle;
     private static String mSearchText;
 
-    @SuppressLint("StaticFieldLeak")
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
@@ -90,25 +88,32 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        mInfoButton.setOnClickListener(v ->
-                new MaterialAlertDialogBuilder(this)
-                        .setIcon(R.drawable.ic_info)
-                        .setTitle(getString(R.string.app_name) + "\n" + BuildConfig.VERSION_NAME)
-                        .setMessage(getString(R.string.app_name_summary)
-                                + "\n\nCopyright: © 2021-2022, sunilpaulmathew"
-                                + "\n\n" + getString(R.string.last_updated, CovidStats.getLastUpdatedDate(CovidStats.getCountries().get(0))))
-                        .setCancelable(false)
-                        .setNegativeButton(getString(R.string.dismiss), (dialogInterface, i) -> {
-                        })
-                        .setPositiveButton(getString(R.string.source_code), (dialogInterface, i) -> {
-                            try {
-                                Intent intent = new Intent(Intent.ACTION_VIEW);
-                                intent.setData(Uri.parse("https://github.com/sunilpaulmathew/CLS"));
-                                startActivity(intent);
-                            } catch (ActivityNotFoundException ignored) {
-                            }
-                        }).show()
-        );
+        mInfoButton.setOnClickListener(v -> {
+            LayoutInflater mLayoutInflator = LayoutInflater.from(this);
+            View aboutLayout = mLayoutInflator.inflate(R.layout.layout_about, null);
+            MaterialTextView mAppTile = aboutLayout.findViewById(R.id.app_title);
+            MaterialTextView mSource = aboutLayout.findViewById(R.id.source);
+            MaterialTextView mDataCredits = aboutLayout.findViewById(R.id.credits_data);
+            MaterialTextView mIconCredits = aboutLayout.findViewById(R.id.credits_icon);
+            MaterialTextView mUpdated = aboutLayout.findViewById(R.id.updated);
+
+            mAppTile.setText(getString(R.string.app_name) + " " + BuildConfig.VERSION_NAME);
+            mSource.setText(getString(R.string.source_code, "https://github.com/sunilpaulmathew/CLS"));
+            mDataCredits.setText(getString(R.string.credits_data, "https://github.com/owid/covid-19-data/tree/master/public/data"));
+            mIconCredits.setText(getString(R.string.credits_icon, "https://www.un.org/en/file/45419"));
+
+            if (CovidStats.isDataLoaded()) {
+                mUpdated.setText(getString(R.string.last_updated, CovidStats.getLastUpdatedDate(CovidStats.getCountries().get(0))));
+            } else {
+                mUpdated.setVisibility(View.GONE);
+            }
+
+            new MaterialAlertDialogBuilder(this)
+                    .setIcon(R.drawable.ic_info).setView(aboutLayout)
+                    .setCancelable(false)
+                    .setPositiveButton(getString(R.string.dismiss), (dialogInterface, i) -> {
+                    }).show();
+        });
 
         new Executor() {
 
@@ -135,7 +140,6 @@ public class MainActivity extends AppCompatActivity {
                 if (CovidStats.isDataLoaded()) {
                     mRecyclerView.setAdapter(new RecyclerViewAdapter(mData));
                     mSearchButton.setVisibility(View.VISIBLE);
-                    mInfoButton.setVisibility(View.VISIBLE);
                 } else {
                     snackBar(getString(R.string.network_failed), MainActivity.this);
                 }

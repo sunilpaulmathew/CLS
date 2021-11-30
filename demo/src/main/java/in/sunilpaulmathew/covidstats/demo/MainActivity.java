@@ -2,6 +2,8 @@ package in.sunilpaulmathew.covidstats.demo;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.AppCompatImageButton;
+import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,6 +28,10 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textview.MaterialTextView;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -111,6 +118,49 @@ public class MainActivity extends AppCompatActivity {
             new MaterialAlertDialogBuilder(this)
                     .setIcon(R.drawable.ic_info).setView(aboutLayout)
                     .setCancelable(false)
+                    .setNegativeButton(R.string.share, (dialogInterface, i) ->
+                            new Executor() {
+
+                                @Override
+                                public void onPreExecute() {
+                                    mProgress.setVisibility(View.VISIBLE);
+                                }
+
+                                @Override
+                                public void doInBackground() {
+                                    try {
+                                        FileInputStream inputStream = new FileInputStream(getPackageManager().getApplicationInfo(getPackageName(),
+                                                PackageManager.GET_META_DATA).sourceDir);
+                                        FileOutputStream outputStream = new FileOutputStream(new File(getExternalCacheDir(), "CLS_" +
+                                                BuildConfig.VERSION_NAME + ".apk"));
+
+                                        byte[] buf = new byte[1024 * 1024];
+                                        int len;
+                                        while ((len = inputStream.read(buf)) > 0) {
+                                            outputStream.write(buf, 0, len);
+                                        }
+
+                                        inputStream.close();
+                                        outputStream.close();
+                                    } catch (IOException | PackageManager.NameNotFoundException ignored) {
+                                    }
+                                }
+
+                                @Override
+                                public void onPostExecute() {
+                                    mProgress.setVisibility(View.GONE);
+                                    Intent shareApp = new Intent(Intent.ACTION_SEND);
+                                    shareApp.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name) + " " + BuildConfig.VERSION_NAME);
+                                    shareApp.putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(MainActivity.this, BuildConfig.APPLICATION_ID + ".provider",
+                                            new File(getExternalCacheDir(), "CLS_" + BuildConfig.VERSION_NAME + ".apk")));
+                                    shareApp.putExtra(Intent.EXTRA_TEXT, getString(R.string.share_message));
+                                    shareApp.setType("application/vnd.android.package-archive");
+                                    shareApp.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                                    Intent shareIntent = Intent.createChooser(shareApp, getString(R.string.share_with));
+                                    startActivity(shareIntent);
+                                }
+                            }.execute()
+                    )
                     .setPositiveButton(getString(R.string.dismiss), (dialogInterface, i) -> {
                     }).show();
         });

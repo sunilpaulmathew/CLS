@@ -1,6 +1,5 @@
 # Covid Live Statistics (CLS)
 
-![](https://img.shields.io/badge/CLS-v0.1-green)
 ![](https://img.shields.io/github/languages/top/sunilpaulmathew/covidlivestats)
 ![](https://img.shields.io/github/contributors/sunilpaulmathew/covidlivestats)
 ![](https://img.shields.io/github/license/sunilpaulmathew/covidlivestats)
@@ -25,9 +24,10 @@ allprojects {
 Step 2: Add dependency to the app-level build.gradle:
 ```
 dependencies {
-        implementation 'com.github.sunilpaulmathew:CLS:v0.1'
+        implementation 'com.github.sunilpaulmathew:CLS:Tag'
 }
 ```
+*Please Note: **Tag** should be replaced with the latest **[commit id](https://github.com/sunilpaulmathew/CLS/commits/master)**.*
 
 Step 3: Add permission to your manifest (AndroidManifest.xml) file:
 ```

@@ -7,5 +7,8 @@
     <string name="credits_icon">Credits (Icon): %s</string>
     <string name="last_updated">Last Updated (Data): %s</string>
     <string name="search_hint">Search…</string>
+    <string name="share">Share</string>
+    <string name="share_message">Covid-19 Live Statistics (CLS) demo application is made mainly for the demonstration purpose. Hence, the ready-to-install APK binary of this application is not published anywhere. Individuals are, however, free to build and distribute the APK file, as per the regulations of GPL-v3 or any later versions, from the source code published at \'https://github.com/sunilpaulmathew/CLS\'. Alternately, you may use the attached APK file, which is directly taken from the installed location on the sender\'s device!</string>
+    <string name="share_with">Share With</string>
     <string name="source_code">Source Code: %s</string>
 </resources>

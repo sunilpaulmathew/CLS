@@ -38,10 +38,10 @@ Step 3: Add permission to your manifest (AndroidManifest.xml) file:
 
 Initialize library
 ```
-new CovidStats().initialize();
+CovidStats mCovidStats = new CovidStats();
 ```
 
-This library also includes an Executor class, which can probably be used.
+Now call the initialize() method in background. The Executor class included in this library shall be used for this purpose.
 ```
 new Executor() {
 
@@ -52,7 +52,7 @@ new Executor() {
 
         @Override
         public void doInBackground() {           
-            new CovidStats().initialize();
+            mCovidStats.initialize();
             // Do other things, if needed
         }
 
@@ -65,32 +65,32 @@ new Executor() {
 
 ### Get Global data
 ```
-Total Cases (int): CovidStats.getGlobalCases();
-New Cases (int): CovidStats.getNewGlobalCases();
-Total Deaths (int): CovidStats.getGlobalDeaths();
-New Deaths (int): CovidStats.getNewGlobalDeaths()
+Total Cases (int): mCovidStats.getGlobalCases();
+New Cases (int): mCovidStats.getNewGlobalCases();
+Total Deaths (int): mCovidStats.getGlobalDeaths();
+New Deaths (int): mCovidStats.getNewGlobalDeaths()
 ```
 
 ### Get data for your country
 ```
-Total Cases (int): CovidStats.getTotalCountryCases(this);
-New Cases (int): CovidStats.getCountryNewCases(this);
-Total Deaths (int): CovidStats.getTotalCountryDeaths(this);
-New Deaths (int): CovidStats.getCountryNewDeaths(this);
-Country Name (String): CovidStats.getCountryContinent(this);
-Continent Name (String): CovidStats.getCountryName(this);
-Updated Date (String): CovidStats.getCountryUpdatedDate(this);
+Total Cases (int): mCovidStats.getTotalCountryCases(this);
+New Cases (int): mCovidStats.getCountryNewCases(this);
+Total Deaths (int): mCovidStats.getTotalCountryDeaths(this);
+New Deaths (int): mCovidStats.getCountryNewDeaths(this);
+Country Name (String): mCovidStats.getCountryContinent(this);
+Continent Name (String): mCovidStats.getCountryName(this);
+Updated Date (String): mCovidStats.getCountryUpdatedDate(this);
 ```
 
 ### Get data for a specific country
 
 Replace *'country'* with the 3 digit ISO code (e.g., IND for India)
 ```
-Total Cases (int): CovidStats.getTotalCases(country);
-New Cases (int): CovidStats.getNewCases(country);
-Total Deaths (int): CovidStats.getTotalDeaths(country);
-New Deaths (int): CovidStats.getNewDeaths(country);
-Country Name (String): CovidStats.getContinent(country);
-Continent Name (String): CovidStats.getLocation(country);
-Updated Date (String): CovidStats.getLastUpdatedDate(country);
+Total Cases (int): mCovidStats.getTotalCases(country);
+New Cases (int): mCovidStats.getNewCases(country);
+Total Deaths (int): mCovidStats.getTotalDeaths(country);
+New Deaths (int): mCovidStats.getNewDeaths(country);
+Country Name (String): mCovidStats.getContinent(country);
+Continent Name (String): mCovidStats.getLocation(country);
+Updated Date (String): mCovidStats.getLastUpdatedDate(country);
 ```

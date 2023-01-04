@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
     private AppCompatEditText mSearchWord;
     private boolean mExit;
+    private final CovidStats mCovidStats = new CovidStats();
     private final Handler mHandler = new Handler();
     private static final List<RecyclerViewItem> mData = new ArrayList<>();
     private MaterialTextView mTitle;
@@ -69,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
                 mSearchWord.setVisibility(View.GONE);
                 mTitle.setVisibility(View.VISIBLE);
                 mSearchWord.setText(null);
-                reloadUI(mRecyclerView, this);
+                reloadUI(mRecyclerView);
                 mSearchText = null;
                 toggleKeyboard(0);
             } else {
@@ -91,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 mSearchText = s.toString().toLowerCase();
-                reloadUI(mRecyclerView, MainActivity.this);
+                reloadUI(mRecyclerView);
             }
         });
 
@@ -109,8 +110,8 @@ public class MainActivity extends AppCompatActivity {
             mDataCredits.setText(getString(R.string.credits_data, "https://github.com/owid/covid-19-data/tree/master/public/data"));
             mIconCredits.setText(getString(R.string.credits_icon, "https://www.un.org/en/file/45419"));
 
-            if (CovidStats.isDataLoaded()) {
-                mUpdated.setText(getString(R.string.last_updated, CovidStats.getLastUpdatedDate(CovidStats.getCountries().get(0))));
+            if (mCovidStats.isDataLoaded()) {
+                mUpdated.setText(getString(R.string.last_updated, mCovidStats.getLastUpdatedDate(mCovidStats.getCountries().get(0))));
             } else {
                 mUpdated.setVisibility(View.GONE);
             }
@@ -174,20 +175,20 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void doInBackground() {
-                new CovidStats().initialize();
-                mData.add( new RecyclerViewItem(CovidStats.getGlobalCases(), CovidStats.getNewGlobalCases(),
-                        CovidStats.getGlobalDeaths(), CovidStats.getNewGlobalDeaths(), null,
-                        getString(R.string.global), CovidStats.getCountryUpdatedDate(MainActivity.this)));
-                for (String country : CovidStats.getCountries()) {
-                    mData.add(new RecyclerViewItem(CovidStats.getTotalCases(country), CovidStats.getNewCases(country),
-                            CovidStats.getTotalDeaths(country), CovidStats.getNewDeaths(country), CovidStats.getContinent(country),
-                            CovidStats.getLocation(country), CovidStats.getLastUpdatedDate(country)));
+                mCovidStats.initialize();
+                mData.add( new RecyclerViewItem(mCovidStats.getGlobalCases(), mCovidStats.getNewGlobalCases(),
+                        mCovidStats.getGlobalDeaths(), mCovidStats.getNewGlobalDeaths(), null,
+                        getString(R.string.global), mCovidStats.getCountryUpdatedDate(MainActivity.this)));
+                for (String country : mCovidStats.getCountries()) {
+                    mData.add(new RecyclerViewItem(mCovidStats.getTotalCases(country), mCovidStats.getNewCases(country),
+                            mCovidStats.getTotalDeaths(country), mCovidStats.getNewDeaths(country), mCovidStats.getContinent(country),
+                            mCovidStats.getLocation(country), mCovidStats.getLastUpdatedDate(country)));
                 }
             }
 
             @Override
             public void onPostExecute() {
-                if (CovidStats.isDataLoaded()) {
+                if (mCovidStats.isDataLoaded()) {
                     mRecyclerView.setAdapter(new RecyclerViewAdapter(mData));
                     mSearchButton.setVisibility(View.VISIBLE);
                 } else {
@@ -220,8 +221,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private static void reloadUI(RecyclerView recyclerView, Activity activity) {
-        if (CovidStats.isDataLoaded()) {
+    private void reloadUI(RecyclerView recyclerView) {
+        if (mCovidStats.isDataLoaded()) {
             List<RecyclerViewItem> mItems = new ArrayList<>();
             for (RecyclerViewItem item : mData) {
                 if (mSearchText != null) {
@@ -234,7 +235,7 @@ public class MainActivity extends AppCompatActivity {
             }
             recyclerView.setAdapter(new RecyclerViewAdapter(mItems));
         } else {
-            snackBar(activity.getString(R.string.network_failed), activity);
+            snackBar(getString(R.string.network_failed), this);
         }
     }
 

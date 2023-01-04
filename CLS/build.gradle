@@ -4,8 +4,9 @@ plugins {
 }
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion 33
     buildToolsVersion "30.0.3"
+    namespace 'in.sunilpaulmathew.covidstats'
 
     defaultConfig {
         consumerProguardFiles("proguard-rules.pro")
@@ -13,7 +14,7 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.annotation:annotation:1.3.0'
+    implementation 'androidx.annotation:annotation:1.5.0'
 }
 
 project.afterEvaluate {

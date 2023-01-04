@@ -63,6 +63,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+        private final CovidStats mCovidStats = new CovidStats();
         private final MaterialCardView mCardLeft, mCardRight;
         private final MaterialTextView mCountry, mTotalC, mNewC, mTotalD, mNewD;
 
@@ -91,26 +93,26 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
             Spannable totalDeaths = new SpannableString("" + data.get(getAdapterPosition()).getTotalDeaths());
             totalDeaths.setSpan(new ForegroundColorSpan(Color.RED), 0, totalDeaths.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            mTDeaths.setText(view.getContext().getString(R.string.deaths_total_details, CovidStats.getLastUpdatedDate(
-                    CovidStats.getCountries().get(getAdapterPosition()))) + " ");
+            mTDeaths.setText(view.getContext().getString(R.string.deaths_total_details, mCovidStats.getLastUpdatedDate(
+                    mCovidStats.getCountries().get(getAdapterPosition()))) + " ");
             mTDeaths.append(totalDeaths);
 
             Spannable newDeaths = new SpannableString("" + data.get(getAdapterPosition()).getNewDeaths());
             newDeaths.setSpan(new ForegroundColorSpan(Color.RED), 0, newDeaths.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            mNDeaths.setText(view.getContext().getString(R.string.deaths_new_details, CovidStats.getLastUpdatedDate(
-                    CovidStats.getCountries().get(getAdapterPosition()))) + " ");
+            mNDeaths.setText(view.getContext().getString(R.string.deaths_new_details, mCovidStats.getLastUpdatedDate(
+                    mCovidStats.getCountries().get(getAdapterPosition()))) + " ");
             mNDeaths.append(newDeaths);
 
             Spannable totalCases = new SpannableString("" + data.get(getAdapterPosition()).getTotalCases());
             totalCases.setSpan(new ForegroundColorSpan(Color.GREEN), 0, totalCases.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            mTCases.setText(view.getContext().getString(R.string.cases_total_details, CovidStats.getLastUpdatedDate(
-                    CovidStats.getCountries().get(getAdapterPosition()))) + " ");
+            mTCases.setText(view.getContext().getString(R.string.cases_total_details, mCovidStats.getLastUpdatedDate(
+                    mCovidStats.getCountries().get(getAdapterPosition()))) + " ");
             mTCases.append(totalCases);
 
             Spannable newCases = new SpannableString("" + data.get(getAdapterPosition()).getNewCases());
             newCases.setSpan(new ForegroundColorSpan(Color.GREEN), 0, newCases.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-            mNCases.setText(view.getContext().getString(R.string.cases_new_details, CovidStats.getLastUpdatedDate(
-                    CovidStats.getCountries().get(getAdapterPosition()))) + " ");
+            mNCases.setText(view.getContext().getString(R.string.cases_new_details, mCovidStats.getLastUpdatedDate(
+                    mCovidStats.getCountries().get(getAdapterPosition()))) + " ");
             mNCases.append(newCases);
             mCountry.setText(data.get(getAdapterPosition()).getCountry().toUpperCase());
 

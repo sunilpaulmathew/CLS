@@ -32,11 +32,11 @@ public class CovidStats {
     public CovidStats() {
     }
 
-    public static boolean isDataLoaded() {
+    public boolean isDataLoaded() {
         return mJSONObject != null;
     }
 
-    private static JSONObject getCountry(String country) {
+    private JSONObject getCountry(String country) {
         if (mJSONObject == null) return null;
         try {
             return new JSONObject(getJSONObject().getString(country));
@@ -45,40 +45,40 @@ public class CovidStats {
         return null;
     }
 
-    public static JSONObject getJSONObject() {
+    public JSONObject getJSONObject() {
         return mJSONObject;
     }
 
-    public static int getTotalCountryCases(Context context) {
+    public int getTotalCountryCases(Context context) {
         return getTotalCases(context.getResources().getConfiguration().locale.getISO3Country());
     }
 
-    public static int getTotalCountryDeaths(Context context) {
+    public int getTotalCountryDeaths(Context context) {
         return getTotalDeaths(context.getResources().getConfiguration().locale.getISO3Country());
     }
 
-    public static int getCountryNewCases(Context context) {
+    public int getCountryNewCases(Context context) {
         return getNewCases(context.getResources().getConfiguration().locale.getISO3Country());
     }
 
-    public static int getCountryNewDeaths(Context context) {
+    public int getCountryNewDeaths(Context context) {
         return getNewDeaths(context.getResources().getConfiguration().locale.getISO3Country());
     }
 
-    public static String getCountryContinent(Context context) {
+    public String getCountryContinent(Context context) {
         return getContinent(context.getResources().getConfiguration().locale.getISO3Country());
     }
 
-    public static String getCountryName(Context context) {
+    public String getCountryName(Context context) {
         return getLocation(context.getResources().getConfiguration().locale.getISO3Country());
     }
 
-    public static String getCountryUpdatedDate(Context context) {
+    public String getCountryUpdatedDate(Context context) {
         return getLastUpdatedDate(context.getResources().getConfiguration().locale.getISO3Country());
     }
 
     @RequiresApi(api = Build.VERSION_CODES.GINGERBREAD)
-    public static int getGlobalCases() {
+    public int getGlobalCases() {
         int total = 0;
         for (String country : getCountries()) {
             try {
@@ -90,7 +90,7 @@ public class CovidStats {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.GINGERBREAD)
-    public static int getGlobalDeaths() {
+    public int getGlobalDeaths() {
         int total = 0;
         for (String country : getCountries()) {
             try {
@@ -102,7 +102,7 @@ public class CovidStats {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.GINGERBREAD)
-    public static int getNewGlobalCases() {
+    public int getNewGlobalCases() {
         int total = 0;
         for (String country : getCountries()) {
             try {
@@ -114,7 +114,7 @@ public class CovidStats {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.GINGERBREAD)
-    public static int getNewGlobalDeaths() {
+    public int getNewGlobalDeaths() {
         int total = 0;
         for (String country : getCountries()) {
             try {
@@ -125,7 +125,7 @@ public class CovidStats {
         return total;
     }
 
-    public static int getTotalCases(String country) {
+    public int getTotalCases(String country) {
         if (getCountry(country) == null) return 0;
         try {
             return Objects.requireNonNull(getCountry(country)).getInt("total_cases");
@@ -134,7 +134,7 @@ public class CovidStats {
         }
     }
 
-    public static int getTotalDeaths(String country) {
+    public int getTotalDeaths(String country) {
         if (getCountry(country) == null) return 0;
         try {
             return Objects.requireNonNull(getCountry(country)).getInt("total_deaths");
@@ -143,7 +143,7 @@ public class CovidStats {
         }
     }
 
-    public static int getNewCases(String country) {
+    public int getNewCases(String country) {
         if (getCountry(country) == null) return 0;
         try {
             return Objects.requireNonNull(getCountry(country)).getInt("new_cases");
@@ -152,7 +152,7 @@ public class CovidStats {
         }
     }
 
-    public static int getNewDeaths(String country) {
+    public int getNewDeaths(String country) {
         if (getCountry(country) == null) return 0;
         try {
             return Objects.requireNonNull(getCountry(country)).getInt("new_deaths");
@@ -161,7 +161,7 @@ public class CovidStats {
         }
     }
 
-    public static List<String> getCountries() {
+    public List<String> getCountries() {
         List<String> mCountries = new ArrayList<>();
         for (String country : Locale.getISOCountries()) {
             if (getLocation(new Locale("", country).getISO3Country()) != null) {
@@ -171,7 +171,7 @@ public class CovidStats {
         return mCountries;
     }
 
-    public static String getContinent(String country) {
+    public String getContinent(String country) {
         if (getCountry(country) == null) return null;
         try {
             return Objects.requireNonNull(getCountry(country)).getString("continent");
@@ -180,7 +180,7 @@ public class CovidStats {
         }
     }
 
-    public static String getLocation(String country) {
+    public String getLocation(String country) {
         if (getCountry(country) == null) return null;
         try {
             return Objects.requireNonNull(getCountry(country)).getString("location");
@@ -189,7 +189,7 @@ public class CovidStats {
         }
     }
 
-    public static String getLastUpdatedDate(String country) {
+    public String getLastUpdatedDate(String country) {
         if (getCountry(country) == null) return null;
         try {
             DateFormatSymbols dfs = new DateFormatSymbols(Locale.getDefault());
